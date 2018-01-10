@@ -1,0 +1,56 @@
+#!/reg/g/psdm/sw/external/python/2.7.10/x86_64-rhel7-gcc48-opt/bin/python2.7
+import sys
+import os
+
+
+import numpy as np
+import h5py
+import psana
+
+# run number passed as string
+run = sys.argv[1]
+imgs_per = 20 # imgs per dataset
+img_sh = (1734, 1731)
+total_chunks = 2
+
+#load the data events for the given run
+ds_str = 'exp=cxilp6715:run=%s:smd' % run
+ds = psana.MPIDataSource(ds_str)
+events = ds.events()
+
+# open the detector obj
+cspad = psana.Detector('CxiDs1.0:Cspad.0')
+
+# make some output dir
+root = '/reg/d/psdm/cxi/cxilp6715/scratch/analysis'
+outdir = os.path.join( root, 'run%s'%run)
+if not os.path.exists(outdir):
+    os.makedirs(outdir)
+
+# make output file
+out_fname = os.path.join( outdir, 'images2d-%s.hdf5'%(run))
+with  h5py.File(out_fname, 'w') as out: 
+
+    imgs = np.zeros( ( imgs_per, img_sh[0], img_sh[1]) , np.float32)
+    count = 0
+    chunks = 0
+    for i,evt in enumerate(events):
+        img = cspad.image(evt)
+        if img is None:
+            continue
+        
+        imgs[count] =  img
+        
+        count += 1
+        print("Image %d"%count)
+
+        if count == imgs_per:
+            out.create_dataset('images%d'%chunks, data=imgs)
+            imgs = np.zeros( ( imgs_per, img_sh[0], img_sh[1]), np.float32 )
+            count = 0
+            chunks += 1 
+        
+        if chunks == total_chunks :
+            break      
+        
+

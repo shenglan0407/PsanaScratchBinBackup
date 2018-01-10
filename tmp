@@ -1,0 +1,99 @@
+kinit: KDC can't fulfill requested option while renewing credentials
+--------------------------------------------------------------------------
+An MPI process has executed an operation involving a call to the
+"fork()" system call to create a child process.  Open MPI is currently
+operating in a condition that could result in memory corruption or
+other system errors; your MPI job may hang, crash, or produce silent
+data corruption.  The use of fork() (or system() or other calls that
+create child processes) is strongly discouraged.  
+
+The process that invoked fork was:
+
+  Local host:          psana1103 (PID 10897)
+  MPI_COMM_WORLD rank: 0
+
+If you are *absolutely sure* that your application will successfully
+and correctly survive a call to fork(), you may disable this warning
+by setting the mpi_warn_on_fork MCA parameter to 0.
+--------------------------------------------------------------------------
+Image 1
+Image 1
+Image 2
+Image 2
+Image 3
+Image 3
+Image 4
+Image 4
+[psana1103:10893] 1 more process has sent help message help-mpi-runtime.txt / mpi_init:warn-fork
+[psana1103:10893] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+Image 5
+Image 5
+Image 6
+Image 6
+Image 7
+Image 7
+Image 8
+Image 8
+Image 9
+Image 9
+Image 10
+Image 10
+Image 11
+Image 11
+Image 12
+Image 12
+Image 13
+Image 13
+Image 14
+Image 14
+Image 15
+Image 15
+Image 16
+Image 16
+Image 17
+Image 17
+Image 18
+Image 18
+Image 19
+Image 19
+Image 20
+Image 20
+Image 21
+Image 21
+Image 22
+Image 22
+Image 23
+Image 23
+Image 24
+Image 24
+Closing remaining open files:/reg/d/psdm/cxi/cxilp6715/scratch/analysis/run7/small_data-7.hdf5...done
+
+------------------------------------------------------------
+Sender: LSF System <lsf@psana1103.pcdsn>
+Subject: Job 54485: <mpirun ./multi_get -r 7 -m 24> in cluster <slac> Done
+
+Job <mpirun ./multi_get -r 7 -m 24> was submitted from host <psanagpu102.pcdsn> by user <dermen> in cluster <slac> at Fri Jun 23 22:47:05 2017.
+Job was executed on host(s) <2*psana1103>, in queue <psanaq>, as user <dermen> in cluster <slac> at Fri Jun 23 22:47:06 2017.
+</reg/neh/home/dermen> was used as the home directory.
+</reg/d/psdm/cxi/cxilp6715/scratch/bin> was used as the working directory.
+Started at Fri Jun 23 22:47:06 2017.
+Terminated at Fri Jun 23 22:47:29 2017.
+Results reported at Fri Jun 23 22:47:29 2017.
+Cannot open your job file: /reg/neh/home/dermen/.lsbatch/1498283225.54485
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   25.10 sec.
+    Max Memory :                                 23 MB
+    Average Memory :                             23.00 MB
+    Total Requested Memory :                     -
+    Delta Memory :                               -
+    Max Swap :                                   -
+    Max Processes :                              5
+    Max Threads :                                7
+    Run time :                                   25 sec.
+    Turnaround time :                            24 sec.
+
+The output (if any) is above this job summary.
+

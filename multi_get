@@ -1,0 +1,62 @@
+#!/reg/g/psdm/sw/external/python/2.7.10/x86_64-rhel7-gcc48-opt/bin/python2.7
+
+import sys
+import os
+
+import numpy as np
+import h5py
+import argparse
+
+import psana
+
+
+parser = argparse.ArgumentParser(description='Data grab')
+parser.add_argument('-r', '--run', type=int, required=True, help='run number to process')
+parser.add_argument('-m', '--maxcount', type=int, default=None, help='max shots to process')
+parser.add_argument('-s', '--start', type=int, default=None, help='first event to process')
+args = parser.parse_args()
+
+# run number passed as string
+run = args.run
+start = args.start
+img_sh = (1734, 1731)
+
+#load the data events for the given run
+ds_str = 'exp=cxilp6715:run=%d:smd' % run
+ds = psana.MPIDataSource(ds_str)
+events = ds.events()
+
+# open the detector obj
+cspad = psana.Detector('CxiDs1.0:Cspad.0')
+
+# make some output dir
+root = '/reg/d/psdm/cxi/cxilp6715/scratch/analysis'
+outdir = os.path.join( root, 'run%d'%run)
+if not os.path.exists(outdir):
+    os.makedirs(outdir)
+
+# make output file
+out_fname = os.path.join( outdir, 'small_data-%d.hdf5'%(run))
+
+#small dat
+smldata = ds.small_data(out_fname)
+count = 0
+
+for i,evt in enumerate(events):
+    if start is not None:
+        if i < start:
+            print ("skipping event %d/%d"%(i+1, start))
+            continue
+    
+    img = cspad.image(evt)
+    if img is None:
+        continue
+    smldata.event(assembled=img)
+    count += 1
+    print("Image %d"%count)
+
+    if args.maxcount is not None:
+        if count == args.maxcount:
+            break
+smldata.save()
+
